@@ -1,0 +1,129 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:     17/10/2023 
+-- Design Name: 
+-- Module Name:    keypad4x4 - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity keypad4x4 is
+    Port ( rows : in  STD_LOGIC_VECTOR (3 downto 0);
+           column : in  STD_LOGIC_VECTOR (3 downto 0);
+           dout : out  STD_LOGIC_VECTOR (7 downto 0));
+end keypad4x4;
+
+architecture Behavioral of keypad4x4 is
+
+begin
+
+process(rows,column)
+
+begin
+
+--1
+
+if(rows="0001")then
+if(column="0001")then
+dout<="00111111";
+end if;
+
+if(column="0010")then
+dout<="00100111";
+end if; 
+
+if(column="0100")then
+dout<="00111001";
+end if;
+
+if(column="1000")then
+dout<="00110011";
+end if;
+end if;
+
+--2
+
+if(rows="0010")then
+if(column="0001")then
+dout<="00011111";
+end if;
+
+if(column="0010")then
+dout<="00110111";
+end if; 
+
+if(column="0100")then
+dout<="00111101";
+end if;
+
+if(column="1000")then
+dout<="00111001";
+end if;
+end if;
+
+--3
+
+if(rows="0100")then
+if(column="0001")then
+dout<="00001111";
+end if;
+
+if(column="0010")then
+dout<="00110111";
+end if; 
+
+if(column="0100")then
+dout<="00111011";
+end if;
+
+if(column="1000")then
+dout<="01111111";
+end if;
+end if;
+
+--4
+
+if(rows="1000")then
+if(column="0001")then
+dout<="11111111";
+end if;
+
+if(column="0010")then
+dout<="00111111";
+end if; 
+
+if(column="0100")then
+dout<="00111111";
+end if;
+
+if(column="1000")then
+dout<="00111111";
+end if;
+end if;
+
+end process;
+
+end Behavioral;
+

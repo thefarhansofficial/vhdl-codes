@@ -1,0 +1,95 @@
+--------------------------------------------------------------------------------
+-- Company: 
+-- Engineer:
+--
+-- Create Date:   23:26:07 10/15/2023
+-- Design Name:   
+-- Module Name:   E:/vhdl_projects/alu_4bit/tb_alu_4bit.vhd
+-- Project Name:  alu_4bit
+-- Target Device:  
+-- Tool versions:  
+-- Description:   
+-- 
+-- VHDL Test Bench Created by ISE for module: alu_4bit
+-- 
+-- Dependencies:
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+--
+-- Notes: 
+-- This testbench has been automatically generated using types std_logic and
+-- std_logic_vector for the ports of the unit under test.  Xilinx recommends
+-- that these types always be used for the top-level I/O of a design in order
+-- to guarantee that the testbench will bind correctly to the post-implementation 
+-- simulation model.
+--------------------------------------------------------------------------------
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+ 
+ENTITY tb_alu_4bit IS
+END tb_alu_4bit;
+ 
+ARCHITECTURE behavior OF tb_alu_4bit IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT alu_4bit
+    PORT(
+         inp_a : IN  signed(3 downto 0);
+         inp_b : IN  signed(3 downto 0);
+         sel : IN  std_logic_vector(2 downto 0);
+         out_alu : OUT  signed(3 downto 0)
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal inp_a : signed(3 downto 0) := (others => '0');
+   signal inp_b : signed(3 downto 0) := (others => '0');
+   signal sel : std_logic_vector(2 downto 0) := (others => '0');
+
+ 	--Outputs
+   signal out_alu : signed(3 downto 0);
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: alu_4bit PORT MAP (
+          inp_a => inp_a,
+          inp_b => inp_b,
+          sel => sel,
+          out_alu => out_alu
+        );
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+	
+      -- insert stimulus here 
+inp_a <= "1001";
+ inp_b <= "1111";
+  
+ sel <= "000";
+ wait for 100 ns;
+ sel <= "001";
+ wait for 100 ns;
+ sel <= "010";
+ wait for 100 ns;
+ sel <= "011";
+ wait for 100 ns;
+ sel <= "100";
+ wait for 100 ns;
+ sel <= "101";
+ wait for 100 ns;
+ sel <= "110";
+ wait for 100 ns;
+ sel <= "111";
+
+   end process;
+
+END;

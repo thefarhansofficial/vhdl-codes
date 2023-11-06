@@ -1,0 +1,79 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    17:32:47 10/17/2023 
+-- Design Name: 
+-- Module Name:    uni_sr - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity uni_sr is
+Port ( d : in STD_LOGIC_VECTOR (3 downto 0);
+clk : in STD_LOGIC;
+load : in STD_LOGIC;
+clear : in STD_LOGIC;
+m : in STD_LOGIC_VECTOR (1 downto 0);
+q : out STD_LOGIC_VECTOR (3 downto 0));
+end uni_sr;
+
+architecture Behavioral of uni_sr is
+
+begin
+process(clk,m,load,clear)
+	variable temp,p:std_logic_vector(3 downto 0);
+	variable c:integer:=0;
+	begin
+	if clear='1'then
+		q<="0000";
+	elsif clk'event and clk='1' then
+		c:=c+1;
+		if c=2 then
+			c:=0;
+			case m is
+				when "00" => --PIPO
+					q<=d;
+				when "01" => --SIPO
+					if(load='1') then
+						temp:=d;
+						q<="0000";
+					else
+						q<="000"&temp(0);
+						temp:='0' & temp(3 downto 1);
+					end if;
+				when "10" =>-- SISO
+					if(load='1') then
+						temp:="0000";
+						q<="0000";
+						p:=d;
+					else
+						temp:=p(0)&temp(3 downto 1);
+						q<="000"&temp(0);
+					end if;
+				when others=>
+					if(load='1') then
+						temp:="0000";
+						q<="0000";
+						p:=d;
+					else
+						temp:=p(0)&temp(3 downto 1);
+					end if;
+			end case;
+		end if;
+	end if;
+end process;
+
+end Behavioral;
+

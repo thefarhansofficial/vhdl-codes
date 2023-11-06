@@ -1,0 +1,78 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    23:41:10 10/17/2023 
+-- Design Name: 
+-- Module Name:    fifo_123 - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--use IEEE.NUMERIC_STD.ALL;
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx primitives in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity fifo_123 is
+    Port ( datain : in  STD_LOGIC_VECTOR (7 downto 0);
+           EN,clk : in  STD_LOGIC;
+           rst : in  STD_LOGIC;
+           w : in  STD_LOGIC;
+           red : out  STD_LOGIC;
+           dataout : out  STD_LOGIC_VECTOR (7 downto 0));
+end fifo_123;
+
+architecture Behavioral of fifo_123 is
+SIGNAL WPTR,RPTR:STD_LOGIC_VECTOR(3 DOWNTO 0);
+TYPE FIFO IS ARRAY(15 DOWNTO 00) OF STD_LOGIC_VECTOR(07 DOWNTO 00);
+SIGNAL MEM:FIFO;
+
+begin
+
+PROCESS(clk,rst)
+
+begin
+IF rst ='1' THEN
+WPTR <="0000";
+RPTR<="0000";
+red <= '0';
+ELSIF(clk'EVENT AND clk='1') THEN
+	IF (EN='1')THEN
+		IF (w='1') THEN
+			IF(WPTR<"1111")THEN
+				MEM(CONV_INTEGER(WPTR)) <= datain;
+				WPTR <=  WPTR+1;
+			END IF;
+		ELSE 
+			IF(RPTR<WPTR)THEN
+				red <='0';
+				dataout <= MEM(CONV_INTEGER(RPTR));
+				RPTR <= RPTR+1;
+			ELSE
+				red<='1';
+				dataout<="00000000";
+			END IF;
+		END IF;
+	END IF; 
+END IF;
+END PROCESS;
+
+
+end Behavioral;
